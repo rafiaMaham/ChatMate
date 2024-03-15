@@ -50,10 +50,41 @@ export const signup = async (req, res) => {
   }
 };
 
-export const login = (req, res) => {
-  res.send("login users");
+export const login = async (req, res) => {
+  try {
+    const { username, password } = req.body;
+    const user = await User.findOne({ username });
+    const isPasswordCorrect = await bcrypt.compare(
+      password,
+      user?.password || ""
+    );
+
+    if (!user || !isPasswordCorrect) {
+      return res.status(400).json({ error: "Invalid credentials!!!" });
+    }
+
+    generateTokenAndSetCookie(user._id, res);
+
+    res.status(201).json({
+      _id: user._id,
+      fullName: user.fullName,
+      username: user.username,
+      profilePic: user.profilePic,
+    });
+  } catch (error) {
+    res.status(500).json({ error: "Internal server error!!!" });
+    console.log("error in loging in...", error.message);
+  }
 };
 
 export const logout = (req, res) => {
-  res.send("login users");
+  try {
+    res.cookie("jwt", "", { maxAge: 0 });
+    res.status(200).json({
+      message: "Logged out successfully!!!",
+    });
+  } catch (error) {
+    res.status(500).json({ error: "Internal server error!!!" });
+    console.log("error in loging out...", error.message);
+  }
 };
