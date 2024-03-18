@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import Gender from "./Gender";
 
 const SignUp = () => {
@@ -56,12 +57,14 @@ const SignUp = () => {
 
           <Gender />
 
-          <a
-            className="text-sm hover:underline hover:text-blue-600 mt-2 inline-block"
-            href="#"
-          >
-            Already have an account?
-          </a>
+          <Link to="/login">
+            <a
+              className="text-sm hover:underline hover:text-blue-600 mt-2 inline-block"
+              href="#"
+            >
+              Already have an account?
+            </a>
+          </Link>
 
           <div>
             <button className="btn btn-block btn-sm mt-2 border border-slate-700">
