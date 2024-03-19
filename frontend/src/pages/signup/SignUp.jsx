@@ -12,18 +12,16 @@ const SignUp = () => {
     gender: "",
   });
 
-  const {loading, signup} = useSignup()
+  const { loading, signup } = useSignup();
 
   const handleCheckboxChange = (gender) => {
     setInputs({ ...inputs, gender });
   };
 
-const handleSubmit = async (e) => {
-  
-  e.preventDefault()
-  await signup(inputs);
-  
-};
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    await signup(inputs);
+  };
 
   return (
     <div className="flex flex-col items-center justify-center min-w-96 mx-auto">
@@ -110,8 +108,15 @@ const handleSubmit = async (e) => {
           </Link>
 
           <div>
-            <button className="btn btn-block btn-sm mt-2 border text-white border-none font-normal hover:bg-gray-600 bg-gray-500">
-              Sign Up
+            <button
+              className="btn btn-block btn-sm mt-2 border text-white border-none font-normal hover:bg-gray-600 bg-gray-500"
+              disabled={loading}
+            >
+              {loading ? (
+                <span className="loading loading-spinner"></span>
+              ) : (
+                "Sign Up"
+              )}
             </button>
           </div>
         </form>
